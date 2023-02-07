@@ -4,8 +4,6 @@
 
 #include "../include/NeuralNetwork.h"
 
-
-
 Synapse::Synapse(Neuron *input, Neuron *output, float weight, float step_size) {
   this->incoming_neuron = input;
   this->outgoing_neuron = output;
@@ -16,12 +14,15 @@ Synapse::Synapse(Neuron *input, Neuron *output, float weight, float step_size) {
   this->outgoing_neuron->AddIncomingSynapse(this);
 }
 
+float Synapse::GetWeight() const { return weight; }
 
+float Synapse::GetInputValue() { return this->incoming_neuron->GetValue(); }
+Neuron *Synapse::GetIncomingNeuron() const { return incoming_neuron; }
 
-float Synapse::GetWeight() const {
-  return weight;
+void Synapse::SetIncomingNeuron(Neuron *incoming_neuron) {
+  Synapse::incoming_neuron = incoming_neuron;
 }
-
-float Synapse::GetInputValue() {
-  return this->incoming_neuron->GetValue();
+Neuron *Synapse::GetOutgoingNeuron() const { return outgoing_neuron; }
+void Synapse::SetOutgoingNeuron(Neuron *outgoing_neuron) {
+  Synapse::outgoing_neuron = outgoing_neuron;
 }

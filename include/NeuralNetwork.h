@@ -16,7 +16,14 @@ class Neuron {
   float temp_value;
   bool is_input;
   bool is_output;
+  float gradient_for_propogation;
   float activation_trace;
+  float local_gradient_trace;
+
+public:
+  float GetLocalGradientTrace() const;
+
+protected:
   float value;
 
  public:
@@ -36,6 +43,7 @@ class Neuron {
   void UpdateValue();
   virtual float Forward() = 0;
   virtual float Backward() = 0;
+  void PropagateGradient();
   void UpdateTraces();
   void UpdateWeight();
   void AddIncomingSynapse(Synapse *);
@@ -60,6 +68,14 @@ class Synapse {
   float gradient_trace;
   Neuron *incoming_neuron;
   Neuron *outgoing_neuron;
+
+public:
+  Neuron *GetIncomingNeuron() const;
+  void SetIncomingNeuron(Neuron *incoming_neuron);
+  Neuron *GetOutgoingNeuron() const;
+  void SetOutgoingNeuron(Neuron *outgoing_neuron);
+
+private:
   float step_size;
 
  public:
@@ -76,7 +92,7 @@ class NeuralNetwork {
   std::vector<Synapse *> list_of_synapses;
 
  public:
-  NeuralNetwork(int input_neurons, int width, int synapses, int seed);
+  NeuralNetwork(int input_neurons, int neurons, int synapses, int seed);
   void SetInputNeurons(std::vector<float> observation);
   float Forward();
   void Backward();
